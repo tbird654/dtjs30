@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+
     <style>
         .keys {
             display: flex;
@@ -15,7 +17,7 @@
             padding: 40px;
             border: 2px solid black;
             margin: 10px;
-            transition: background .18s ease;
+            transition: background 3.18s ease;
         }
 
         .key:hover {
@@ -57,53 +59,71 @@
 
 <script>
 
-    var keyA = document.querySelector('div[data-key="65"]');
-    //const audioA = document.querySelector('audio[data-key="65"]');
-
-    keyA.addEventListener('click', function(){
-        this.classList.add('playing');
-        audioA.currentTime = 0;
-        audioA.play();
-    });
-
-
-//    function playAudio(e){
-//        var code = e.keyCode;
-//        const audioKey = document.querySelector('audio[data-key="' + code + '"]');
-//        console.log(audioKey);
-//
-//        if(!audioKey) return;
-//
-//        audioKey.play();
-//    }
-
-    function removeTransition(e) {
+    function endTransition(e){
         if(e.propertyName !== 'background-color') return;
         console.log(e.propertyName);
         this.classList.remove('playing');
-    }
+    };
 
     function playSound(e){
-        var code = e.keyCode;
-        const audioEl = document.querySelector('audio[data-key="' + code + '"]');
-        const audioKey = document.querySelector('div[data-key="' + code + '"]');
-        console.log(audioKey);
+        //console.log(e.keyCode);
+        key = e.keyCode;
+        // var keyInput = document.querySelector('div[data-key="'+ key +'"]');
+        // var audio = document.querySelector('audio[data-key="'+ key +'"]');
+        var keyInput = document.querySelector(`div[data-key="${e.keyCode}"]`);
+        var audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+       // console.log(audio);
 
-        if(!audioEl) return;
+        if(!audio) return;
 
-        audioEl.currentTime = 0;
-        audioEl.play();
+        keyInput.classList.add('playing');
 
-        audioKey.classList.add('playing');
+        audio.currentTime = 0;
+        audio.play();
+
+        var keys = document.querySelectorAll('.key');
+
+      //  keys.forEach(keyInput => keyInput.addEventListener('transitionend', endTransition));
+
+        keys.forEach(function(keyInput){
+            keyInput.addEventListener('transitionend', endTransition);
+        });
+
     }
 
     window.addEventListener('keydown', playSound);
 
-    const keys = document.querySelectorAll('.key');
 
-    keys.forEach(audioKey => audioKey.addEventListener('transitionend', removeTransition));
-
-
+    // $(document).ready(function(){
+    //
+    //     // function stopTrans() {
+    //     //     this.removeClass('playing');
+    //     // }
+    //
+    //     function playSound(e){
+    //         var keyPress = e.keyCode;
+    //        // console.log(keyPress);
+    //
+    //         var audio = $('audio[data-key="'+ keyPress +'"]')[0];
+    //         var audioKey = $('.key[data-key="'+ keyPress +'"]');
+    //         console.log(audioKey);
+    //
+    //         if(!audio) return;
+    //
+    //         audioKey.addClass('playing');
+    //
+    //         audio.currentTime = 0;
+    //
+    //         audio.play();
+    //
+    //         audioKey.on('transitionend', function(){
+    //             $(this).removeClass('playing');
+    //         });
+    //
+    //     }
+    //     $(window).on('keydown', playSound);
+    //
+    // });
 
 
 </script>
